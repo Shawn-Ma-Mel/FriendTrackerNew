@@ -55,8 +55,8 @@ public class FriendListActivity extends AppCompatActivity implements FriendAdapt
         int id = item.getItemId();
         if (id == R.id.add_friend) {
             Context context = FriendListActivity.this;
-            Class destionationActivity = EditFriendActivity.class;
-            Intent startEditFriend = new Intent(context,destionationActivity);
+            Class destinationActivity = EditFriendActivity.class;
+            Intent startEditFriend = new Intent(context,destinationActivity);
             startActivity(startEditFriend);
 
         }
