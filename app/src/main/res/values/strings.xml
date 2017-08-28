@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Friend Tracker</string>
+    <string name="add_friend">Add Friend</string>
+    <string name="schedual_meeting">Schedual Meeting</string>
+</resources>
