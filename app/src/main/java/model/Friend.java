@@ -10,13 +10,15 @@ public class Friend {
     private String id;
     private String name;
     private String email;
-    private Date birthday;
+    private String birthday;
+
     public Friend(){}
 
-    public Friend( String id, String name, String email){
+    public Friend( String id, String name, String email, String birthday){
         this.id = id;
         this.name = name;
         this.email = email;
+        this.birthday = birthday;
       //  this.birthday = birthday;
     }
     public String getName() {
@@ -43,7 +45,7 @@ public class Friend {
         this.id = id;
     }
 
-    public Date getBirthday(){ return birthday;}
+    public String getBirthday(){ return birthday;}
 
-    public void setBirthday(Date birthday){}
+    public void setBirthday(String birthday){}
 }

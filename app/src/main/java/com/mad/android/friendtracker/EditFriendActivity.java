@@ -14,22 +14,26 @@ import android.widget.EditText;
 
 import java.util.Calendar;
 
-
 public class EditFriendActivity extends AppCompatActivity {
+
+    protected static final int PICK_CONTACTS = 100;
     EditText editName;
     EditText editEmail;
     EditText editBirthday;
-    protected static final int PICK_CONTACTS = 100;
-
-
-
-
-
+    String id;
+    String getId;
+    String nameOld;
+    String emailOld;
+    String birthdayOld;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_friend);
+
         Button done = (Button)findViewById(R.id.done);
+        editName = (EditText) findViewById(R.id.edit_name);
+        editEmail = (EditText) findViewById(R.id.edit_email);
         editBirthday = (EditText)findViewById(R.id.edit_birthday);
         editBirthday.setInputType(InputType.TYPE_NULL);
         editBirthday.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -52,6 +56,28 @@ public class EditFriendActivity extends AppCompatActivity {
             }
         });
 
+
+
+
+        getId = this.getIntent().getStringExtra("EXTRA_ID");
+        if (getId == null || getId.equals("")) {
+            id = model.FriendTracker.getRandomString();
+        } else {
+            id = getId;
+            for (int i = 0; i < model.FriendTracker.getFriendArrayList().size(); i++) {
+                if (model.FriendTracker.getFriendArrayList().get(i).getId().equals(getId)) {
+
+                    nameOld = model.FriendTracker.getFriendArrayList().get(i).getName();
+                    emailOld = model.FriendTracker.getFriendArrayList().get(i).getEmail();
+                    birthdayOld = model.FriendTracker.getFriendArrayList().get(i).getBirthday();
+                    editName.setText(nameOld);
+                    editEmail.setText(emailOld);
+                    editBirthday.setText(birthdayOld);
+                    model.FriendTracker.getFriendArrayList().remove(i);
+                }
+            }
+        }
+
         editBirthday.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -72,10 +98,17 @@ public class EditFriendActivity extends AppCompatActivity {
         done.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                Context context = EditFriendActivity.this;
-                Class destinationActivity = FriendListActivity.class;
-                Intent saveFriendIntent = new Intent(context,destinationActivity);
-                startActivity(saveFriendIntent);
+
+                String nameSave = editName.getText().toString();
+                String emailSave = editEmail.getText().toString();
+                String birthdaySave = editBirthday.getText().toString();
+                model.FriendTracker.addFriend(id,nameSave,emailSave,birthdaySave);
+      //          Context context = EditFriendActivity.this;
+         //       Class destinationActivity = FriendListActivity.class;
+        //        Intent saveFriendIntent = new Intent(context,destinationActivity);
+      //          startActivity(saveFriendIntent);
+
+                finish();
             }
         });
 
@@ -83,8 +116,8 @@ public class EditFriendActivity extends AppCompatActivity {
         addFriendFromContact.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Context context = EditFriendActivity.this;
-                Class destionationActivity = FriendListActivity.class;
+      //          Context context = EditFriendActivity.this;
+                //         Class destionationActivity = FriendListActivity.class;
                 Intent contactPickerIntent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
                 startActivityForResult(contactPickerIntent, PICK_CONTACTS);
             }
@@ -98,18 +131,21 @@ public class EditFriendActivity extends AppCompatActivity {
                 ContactDataManager contactsManager = new ContactDataManager(this, data);
                 String name = "";
                 String email = "";
+//              String birthday = "";
+
                 try {
                     name = contactsManager.getContactName();
                     email = contactsManager.getContactEmail();
-
                 } catch (ContactDataManager.ContactQueryException e) {
                 };
-                editName = (EditText) findViewById(R.id.edit_name);
-                editEmail = (EditText) findViewById(R.id.edit_email);
-                editName.setText(name);
-                editEmail.setText(email);
-                String id = model.FriendTracker.getRandomString();
-                model.FriendTracker.addFriend(id,name,email);
+
+                  editName = (EditText) findViewById(R.id.edit_name);
+                  editEmail = (EditText) findViewById(R.id.edit_email);
+                  editName.setText(name);
+                  editEmail.setText(email);
+    //            birthday = editBirthday.getText().toString();
+    //
+   //             model.FriendTracker.addFriend(id,name,email,birthday);
 
             }
         }
