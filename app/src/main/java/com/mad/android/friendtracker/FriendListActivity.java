@@ -103,6 +103,7 @@ public class FriendListActivity extends AppCompatActivity implements FriendAdapt
             public void onSwiped(final RecyclerView.ViewHolder viewHolder, int direction) {
                 int position = viewHolder.getAdapterPosition();
                 onListItemSwiped(position);
+
             }
         };
         return simpleItemTouchCallback;
